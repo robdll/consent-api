@@ -9,8 +9,12 @@ function postUser(req, res) {
 
     const id = uuidv4();
     const email = req.body.email.toLowerCase();
-    const params = [ id, email ]
+    const mailRegexp = new RegExp("/^[a-zA-Z0-9.! #$%&'*+/=? ^_`{|}~-]+@[a-zA-Z0-9-]+(?:\. [a-zA-Z0-9-]+)*$/")
+    if(!email.match(mailRegexp)) {
+      return res.status(422).end();
+    }
 
+    const params = [ id, email ]
     mysqlPool.queryAsync(postUserQuery, params)
         .then(returnResponse)
         .catch(returnError);

@@ -2,13 +2,11 @@
 
 It's a small backend API project using NodeJs/express on the backend and MySQL as a database.
 
-
 ## Requirements
 
 - [git](https://git-scm.com/downloads)
 - [node / npm](https://nodejs.org/en/download/)
 - [docker / docker-compose](https://docs.docker.com/compose/install/)
-
 
 ## Installation
 
