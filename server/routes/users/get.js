@@ -41,7 +41,7 @@ function getUser(req, res) {
     }
     else {
         response.code = 204;
-        response.payload = { message: 'No data has been found'};
+        response.payload = {};
     }
     return res.status(response.code).json(response.payload);
   }
@@ -49,9 +49,7 @@ function getUser(req, res) {
   function returnError(err) {
     console.log(err)
     let response = { code: 500 }
-    if(typeof err === 'string') {
-      response.payload = { detail: err };
-    }
+    response.payload = typeof err === 'string' ? { detail: err } : {};
     return res.status(response.code).json(response.payload);
   }
 }

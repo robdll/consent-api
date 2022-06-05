@@ -32,12 +32,8 @@ function postUser(req, res) {
     let response = {}
     if( err && err.code && err.code === 'ER_DUP_ENTRY') {
         response.code = 409
-        response.payload = { message: 'Resource already exists'}
-    } else {
-        response.code = 500
-        response.payload = typeof err === 'string' ? { message: err } : {}
-    }
-    return res.status(response.code).json(response.payload);
+    } 
+    return res.status(response.code || 500).end();
   }
 
 }
