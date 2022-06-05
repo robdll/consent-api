@@ -1,12 +1,10 @@
 require('dotenv').config();
-const cors = require('cors');
 const express = require('express');
 
 const port = process.env.PORT || 3000;
 
 const app = express();
 app.set('port', port); 
-app.use(cors());
 
 app.use('/', (req, res) => {
     return res.status(200).json({ code: 200 });
