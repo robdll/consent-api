@@ -6,26 +6,31 @@ const getUserQuery = require('../../db/queries').GET_USER;
 const getUserConsentsQuery = require('../../db/queries').GET_USER_CONSENTS;
 
 function getUser(req, res) {
-    const fetchUserFromDB = mysqlPool.queryAsync(getUserQuery, ["Jupiter@planet.it"]);
-    const fetchUserConsentsFromDB = mysqlPool.queryAsync(getUserConsentsQuery, ["Jupiter@planet.it"]);
-    Promise.all([
-        fetchUserFromDB,
-        fetchUserConsentsFromDB
-    ])
+  const params = [req.params.email];
+  const fetchUserFromDB = mysqlPool.queryAsync(getUserQuery, params);
+  const fetchUserConsentsFromDB = mysqlPool.queryAsync(getUserConsentsQuery, params);
+  Promise.all([
+      fetchUserFromDB,
+      fetchUserConsentsFromDB
+  ])
     .then(joinResults)
     .then(returnResponse)
     .catch(returnError);
 
   function joinResults(results) {
-      const [ users, consents ] = results;
-      const user = users.shift();
-      user.consents = consents.map( i => { 
-          return {
-              id: i.id,
-              enabled: !!i.enabled 
-          };
-      });
-      return user
+    const [ users, consents ] = results;
+    // Skip payload manipulation when no user has been found
+    if(users.length === 0) {
+      return
+    }
+    const user = users.shift();
+    // Cast mysql 1 or 0 as boolean
+    user.consents = consents.map( i => ({ 
+        id: i.id,
+        enabled: !!i.enabled 
+      })
+    );
+    return user
   }
 
   function returnResponse(user) {
@@ -42,13 +47,13 @@ function getUser(req, res) {
   }
 
   function returnError(err) {
+    console.log(err)
     let response = { code: 500 }
     if(typeof err === 'string') {
       response.payload = { detail: err };
     }
     return res.status(response.code).json(response.payload);
   }
-
 }
 
 module.exports = getUser;
