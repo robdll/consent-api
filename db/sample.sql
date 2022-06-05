@@ -79,9 +79,9 @@ ALTER TABLE `users_consents` ADD FOREIGN KEY (`consent_id`) REFERENCES consents(
 --
 INSERT INTO `users_consents` (`id`, `user_id`, `consent_id`, `enabled`) VALUES
 ( "22222221-caa1-45ff-b6e1-56e5cb4586c5", "00000001-caa1-45ff-b6e1-56e5cb4586c5", "11111111-caa1-45ff-b6e1-56e5cb4586c5", 1),
-( "22222221-caa1-45ff-b6e1-56e5cb4586c5", "00000001-caa1-45ff-b6e1-56e5cb4586c5", "11111112-caa1-45ff-b6e1-56e5cb4586c5", 1),
-( "22222221-caa1-45ff-b6e1-56e5cb4586c5", "00000002-caa1-45ff-b6e1-56e5cb4586c5", "11111111-caa1-45ff-b6e1-56e5cb4586c5", 1),
-( "22222221-caa1-45ff-b6e1-56e5cb4586c5", "00000003-caa1-45ff-b6e1-56e5cb4586c5", "11111112-caa1-45ff-b6e1-56e5cb4586c5", 1);
+( "22222221-caa2-45ff-b6e1-56e5cb4586c5", "00000001-caa1-45ff-b6e1-56e5cb4586c5", "11111112-caa1-45ff-b6e1-56e5cb4586c5", 1),
+( "22222221-caa3-45ff-b6e1-56e5cb4586c5", "00000002-caa1-45ff-b6e1-56e5cb4586c5", "11111111-caa1-45ff-b6e1-56e5cb4586c5", 1),
+( "22222221-caa4-45ff-b6e1-56e5cb4586c5", "00000003-caa1-45ff-b6e1-56e5cb4586c5", "11111112-caa1-45ff-b6e1-56e5cb4586c5", 1);
 
 
 COMMIT;
