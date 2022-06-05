@@ -14,8 +14,9 @@ async function postEvent(req, res) {
 
     const user_id = req.body.user.id;
 
-    const userExist = await mysqlPool.query(getUserById, [user_id])
-
+    const userExistData = await mysqlPool.query(getUserById, [user_id])
+    // mysql2 async returns results in first index of an array followed by items including others info
+    const userExist = userExistData.shift();
     // return if user not found
     if(!userExist.length) {
         return res.status(404).end();
@@ -29,7 +30,8 @@ async function postEvent(req, res) {
     });
 
     // filter out any unknonw consent type
-    const acceptedConsents = await mysqlPool.query(getConsentsQuery);
+    const acceptedConsentsData = await mysqlPool.query(getConsentsQuery);
+    const acceptedConsents = acceptedConsentsData.shift();
     consents = consents.filter( element => acceptedConsents.map( i => i.type).includes(element.id) )
 
     // no update required if no consents are left
@@ -38,15 +40,15 @@ async function postEvent(req, res) {
     }
 
     // get existing user consents
-    let userConsents = await mysqlPool.query(getUserConsentsQuery, [user_id]);
-
+    const userConsentsData = await mysqlPool.query(getUserConsentsQuery, [user_id]);
+    let userConsents = userConsentsData.shift();
     // map each consent as a promise to either create consent & event or update consent and create event
     const promises = consents.map( element => {
         const foundConsent = userConsents.find( (userConsent) => userConsent.type === element.id)
         if(foundConsent) {
             // map each consent as a promise to either create consent and event or update consent and create event
             const params = [element.enabled, foundConsent.id]
-            const eventParams = [uuidv4(), ...params]
+            const eventParams = [uuidv4(), ...params, user_id]
             return mysqlPool.query(updateUserConsentQuery, params)
                 .then( (r) => {
                     return mysqlPool.query(createEventQuery, eventParams)
@@ -56,7 +58,7 @@ async function postEvent(req, res) {
             const userConsentId = uuidv4();
             const consent_id = acceptedConsents.find( i => i.type === element.id).id
             const params = [userConsentId, user_id, consent_id, element.enabled]
-            const eventParams = [uuidv4(), element.enabled, userConsentId]
+            const eventParams = [uuidv4(), element.enabled, userConsentId, user_id]
             return mysqlPool
                 .query(createUserConsentQuery, params)
                 .then( () => {
@@ -75,7 +77,7 @@ async function postEvent(req, res) {
   }
 
   function returnError(err) {
-      console.log(err)
+    console.log(err)
     let response = {}
     if( err && err.code && err.code === 'ER_DUP_ENTRY') {
         response.code = 409

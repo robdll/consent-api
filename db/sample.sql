@@ -32,6 +32,7 @@ CREATE TABLE `users_consents_events` (
   `id` varchar(36) NOT NULL,
   `new_value` boolean NOT NULL,
   `users_consents_id` varchar(36) NOT NULL,
+  `user_id` varchar(36) NOT NULL,
   `created` TIMESTAMP
 );
 
@@ -71,7 +72,12 @@ ALTER TABLE `consents` ADD PRIMARY KEY (`id`);
 --
 ALTER TABLE `users_consents` ADD PRIMARY KEY (`id`);
 ALTER TABLE `users_consents` ADD FOREIGN KEY (`user_id`) REFERENCES users(`id`);
-ALTER TABLE `users_consents` ADD FOREIGN KEY (`consent_id`) REFERENCES consents(`id`);
+
+--
+-- Indexes for table `users_consents_events`
+--
+ALTER TABLE `users_consents_events` ADD PRIMARY KEY (`id`);
+ALTER TABLE `users_consents_events` ADD FOREIGN KEY (`user_id`) REFERENCES users(`id`);
 
 --
 -- Dumping data for table `users_consents`

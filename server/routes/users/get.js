@@ -19,18 +19,22 @@ function getUser(req, res) {
     .catch(returnError);
 
   function joinResults(results) {
-    const [ users, consents ] = results;
+    const [ usersData, consentsData ] = results;
+    const user = usersData[0].shift();
     // Skip payload manipulation when no user has been found
-    if(users.length === 0) {
+    if(usersData.length === 0) {
       return
     }
-    const user = users.shift();
-    // Cast mysql 1 or 0 as boolean
-    user.consents = consents.map( i => ({ 
-        id: i.id,
-        enabled: !!i.enabled 
-      })
-    );
+    const consents = consentsData.shift();
+    if(consents) {
+      // Cast mysql 1 or 0 as boolean
+      user.consents = consents.map( i => ({ 
+          id: i.id,
+          enabled: !!i.enabled 
+        })
+      );
+    }
+    
     return user
   }
 
@@ -39,12 +43,12 @@ function getUser(req, res) {
     if(user) {
         response.code = 200;
         response.payload = user;
-    }
+        return res.status(response.code).json(response.payload);
+      }
     else {
         response.code = 204;
-        response.payload = {};
-    }
-    return res.status(response.code).json(response.payload);
+        return res.status(response.code).end();
+      }
   }
 
   function returnError(err) {

@@ -13,6 +13,7 @@ const getUser = require('./users/get');
 const deleteUser = require('./users/delete');
 const postUser = require('./users/post');
 const postEvent = require('./events/post');
+const getEvent = require('./events/get');
 
 module.exports = function(app) {
     // parse request body and append values under req.body
@@ -24,6 +25,7 @@ module.exports = function(app) {
     router.route('/users').post(postUser);
     
     router.route('/events').post(postEvent);
+    router.route('/events/:id').get(getEvent);
     
     app.use('/', apiCallTracker, bodyValidator, router, errorHandler);
 

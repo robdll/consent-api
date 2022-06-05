@@ -26,8 +26,8 @@ const POST_USER_CONSENT = `
 
 const POST_EVENT = `
   INSERT INTO users_consents_events  
-    ( id, new_value, users_consents_id ) 
-    VALUES (?, ?, ?)`;
+    ( id, new_value, users_consents_id, user_id ) 
+    VALUES (?, ?, ?, ?)`;
 
 // delete all events associated to the ids of consents linked to a certain user
 const DELETE_USER_CONSENTS_EVENTS = `
@@ -63,6 +63,13 @@ const UPDATE_USER_CONSENT = `
   WHERE id = ?
 `;
 
+const GET_USER_EVENTS = `
+  SELECT * 
+  FROM users_consents_events 
+  WHERE user_id = ?
+  ORDER BY created ASC
+`
+
 module.exports = {
   GET_USER,
   GET_CONSENTS,
@@ -75,5 +82,6 @@ module.exports = {
   UPDATE_USER_CONSENT,
   POST_USER_CONSENT,
   POST_EVENT,
-  GET_USER_BY_ID
+  GET_USER_BY_ID,
+  GET_USER_EVENTS
 }
