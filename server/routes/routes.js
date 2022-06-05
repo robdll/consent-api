@@ -5,6 +5,9 @@ const router = express.Router();
 const bodyParser = require('body-parser');
 // PROPRIETARY MIDDLEWARE 
 const apiCallTracker = require('../middleware/apiCallTracker');
+const bodyValidator = require('../middleware/bodyValidator');
+const errorHandler = require('../middleware/errorHandler');
+
 
 // API ROUTES
 const getUser = require('./users/get');
@@ -24,6 +27,6 @@ module.exports = function(app) {
     
     router.route('/events').post(postEvent);
     
-    app.use('/', apiCallTracker, router);
+    app.use('/', apiCallTracker, bodyValidator, router, errorHandler);
 
 } 
