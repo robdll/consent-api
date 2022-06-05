@@ -8,7 +8,6 @@ const apiCallTracker = require('../middleware/apiCallTracker');
 const bodyValidator = require('../middleware/bodyValidator');
 const errorHandler = require('../middleware/errorHandler');
 
-
 // API ROUTES
 const getUser = require('./users/get');
 const deleteUser = require('./users/delete');
@@ -16,7 +15,6 @@ const postUser = require('./users/post');
 const postEvent = require('./events/post');
 
 module.exports = function(app) {
-
     // parse request body and append values under req.body
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: false }));

@@ -40,10 +40,11 @@ async function postEvent(req, res) {
     // get existing user consents
     let userConsents = await mysqlPool.queryAsync(getUserConsentsQuery, [user_id]);
 
-    // map each consent as a promise to either create consent and event or update consent and create event
+    // map each consent as a promise to either create consent & event or update consent and create event
     const promises = consents.map( element => {
         const foundConsent = userConsents.find( (userConsent) => userConsent.type === element.id)
         if(foundConsent) {
+            // map each consent as a promise to either create consent and event or update consent and create event
             const params = [element.enabled, foundConsent.id]
             const eventParams = [uuidv4(), ...params]
             return mysqlPool.queryAsync(updateUserConsentQuery, params)
