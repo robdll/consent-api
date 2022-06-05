@@ -33,15 +33,15 @@ services:
   server:
     build: ./server
     container_name: node_server_container
+    ports:
+      - 3000:3000
+    volumes:
+      - ./server:/app
+    working_dir: /app
     depends_on:
       - mysql-db
     environment:
       <<: *common-variables
       MYSQL_HOST_IP: mysql-db
-    ports:
-      - 3000:3000
-    volumes:
-      - ./server:/app
     links:
       - mysql-db
-    # command: npm start
