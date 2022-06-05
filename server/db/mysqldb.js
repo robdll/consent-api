@@ -1,11 +1,6 @@
 'use strict';
 
-const mysql = require('mysql');
-const Promise = require('bluebird');
-const Pool = require('mysql/lib/Pool');
-const Connection = require('mysql/lib/Connection');
-Promise.promisifyAll([Pool, Connection]);
-Promise.longStackTraces();
+const mysql = require('mysql2');
 
 const options = {
   host: process.env.MYSQL_HOST_IP,
@@ -15,5 +10,6 @@ const options = {
 };
 
 const pool = mysql.createPool(options);
+const promisePool = pool.promise();
 
-module.exports = pool;
+module.exports = promisePool;

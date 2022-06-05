@@ -10,9 +10,9 @@ function deleteUser(req, res) {
 
     const email = req.params.email.toLowerCase();
     const params = [email];
-    const deleteEventsFromDb = mysqlPool.queryAsync(deleteUserEventsQuery, params);
-    const deleteConsentsFromDb = () => mysqlPool.queryAsync(deleteUserConsentsQuery, params);
-    const deleteUserFromDb = () => mysqlPool.queryAsync(deleteUserQuery, params);
+    const deleteEventsFromDb = mysqlPool.query(deleteUserEventsQuery, params);
+    const deleteConsentsFromDb = () => mysqlPool.query(deleteUserConsentsQuery, params);
+    const deleteUserFromDb = () => mysqlPool.query(deleteUserQuery, params);
     
     deleteEventsFromDb
         .then(deleteConsentsFromDb)

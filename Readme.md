@@ -25,6 +25,8 @@ It's a small backend API project using NodeJs/express on the backend and MySQL a
 
 ## Test
 
+The application is tested using [jest](https://jestjs.io/) for middleware
+
 1. move to the server folder
 > cd server
 

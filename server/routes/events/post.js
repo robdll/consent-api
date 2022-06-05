@@ -14,7 +14,7 @@ async function postEvent(req, res) {
 
     const user_id = req.body.user.id;
 
-    const userExist = await mysqlPool.queryAsync(getUserById, [user_id])
+    const userExist = await mysqlPool.query(getUserById, [user_id])
 
     // return if user not found
     if(!userExist.length) {
@@ -29,7 +29,7 @@ async function postEvent(req, res) {
     });
 
     // filter out any unknonw consent type
-    const acceptedConsents = await mysqlPool.queryAsync(getConsentsQuery);
+    const acceptedConsents = await mysqlPool.query(getConsentsQuery);
     consents = consents.filter( element => acceptedConsents.map( i => i.type).includes(element.id) )
 
     // no update required if no consents are left
@@ -38,7 +38,7 @@ async function postEvent(req, res) {
     }
 
     // get existing user consents
-    let userConsents = await mysqlPool.queryAsync(getUserConsentsQuery, [user_id]);
+    let userConsents = await mysqlPool.query(getUserConsentsQuery, [user_id]);
 
     // map each consent as a promise to either create consent & event or update consent and create event
     const promises = consents.map( element => {
@@ -47,9 +47,9 @@ async function postEvent(req, res) {
             // map each consent as a promise to either create consent and event or update consent and create event
             const params = [element.enabled, foundConsent.id]
             const eventParams = [uuidv4(), ...params]
-            return mysqlPool.queryAsync(updateUserConsentQuery, params)
+            return mysqlPool.query(updateUserConsentQuery, params)
                 .then( (r) => {
-                    return mysqlPool.queryAsync(createEventQuery, eventParams)
+                    return mysqlPool.query(createEventQuery, eventParams)
                 })
         } else {
             // create
@@ -58,9 +58,9 @@ async function postEvent(req, res) {
             const params = [userConsentId, user_id, consent_id, element.enabled]
             const eventParams = [uuidv4(), element.enabled, userConsentId]
             return mysqlPool
-                .queryAsync(createUserConsentQuery, params)
+                .query(createUserConsentQuery, params)
                 .then( () => {
-                    return mysqlPool.queryAsync(createEventQuery, eventParams)
+                    return mysqlPool.query(createEventQuery, eventParams)
                 })
         }
     })

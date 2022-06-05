@@ -9,13 +9,13 @@ function postUser(req, res) {
 
     const id = uuidv4();
     const email = req.body.email.toLowerCase();
-    const mailRegexp = new RegExp("/^[a-zA-Z0-9.! #$%&'*+/=? ^_`{|}~-]+@[a-zA-Z0-9-]+(?:\. [a-zA-Z0-9-]+)*$/")
-    if(!email.match(mailRegexp)) {
+    const mailRegexp = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
+    if(!mailRegexp.test(email)) {
       return res.status(422).end();
     }
 
     const params = [ id, email ]
-    mysqlPool.queryAsync(postUserQuery, params)
+    mysqlPool.query(postUserQuery, params)
         .then(returnResponse)
         .catch(returnError);
 
@@ -33,6 +33,7 @@ function postUser(req, res) {
   }
 
   function returnError(err) {
+    console.log(err)
     let response = {}
     if( err && err.code && err.code === 'ER_DUP_ENTRY') {
         response.code = 409

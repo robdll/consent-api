@@ -7,8 +7,9 @@ const getUserConsentsQuery = require('../../db/queries').GET_USER_CONSENTS_USING
 
 function getUser(req, res) {
   const params = [req.params.email];
-  const fetchUserFromDB = mysqlPool.queryAsync(getUserQuery, params);
-  const fetchUserConsentsFromDB = mysqlPool.queryAsync(getUserConsentsQuery, params);
+  const fetchUserFromDB = mysqlPool.query(getUserQuery, params);
+  const fetchUserConsentsFromDB = mysqlPool.query(getUserConsentsQuery, params);
+
   Promise.all([
       fetchUserFromDB,
       fetchUserConsentsFromDB
@@ -47,7 +48,7 @@ function getUser(req, res) {
   }
 
   function returnError(err) {
-    console.log(err)
+    console.log('err',err)
     let response = { code: 500 }
     response.payload = typeof err === 'string' ? { detail: err } : {};
     return res.status(response.code).json(response.payload);
