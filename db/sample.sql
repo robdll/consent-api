@@ -30,9 +30,8 @@ CREATE TABLE `users_consents` (
 
 CREATE TABLE `users_consents_events` (
   `id` varchar(36) NOT NULL,
-  `previous` varchar(36),
-  `current` varchar(36) NOT NULL,
-  `users_consents_id` boolean NOT NULL,
+  `new_value` boolean NOT NULL,
+  `users_consents_id` varchar(36) NOT NULL,
   `created` TIMESTAMP
 );
 

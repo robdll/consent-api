@@ -7,7 +7,7 @@ const getUser = require('./users/get');
 const deleteUser = require('./users/delete');
 const postUser = require('./users/post');
 
-// const postEvent = require('./events/post');
+const postEvent = require('./events/post');
 
 module.exports = function(app) {
 
@@ -19,7 +19,7 @@ module.exports = function(app) {
     router.route('/users/:email').delete(deleteUser);
     router.route('/users').post(postUser);
     
-    // router.route('/events').post(postEvent);
+    router.route('/events').post(postEvent);
     
     app.use('/', router);
 

@@ -28,3 +28,8 @@ It's a small backend API project using NodeJs/express on the backend and MySQL a
 ## Test
 
 ## Documentation
+
+
+
+### Question
+1. Do you have a regex already in place in your system for email validity? if not, can the following be accepted?

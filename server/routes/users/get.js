@@ -3,7 +3,7 @@
 const mysqlPool = require('../../db/mysqldb');
 
 const getUserQuery = require('../../db/queries').GET_USER;
-const getUserConsentsQuery = require('../../db/queries').GET_USER_CONSENTS;
+const getUserConsentsQuery = require('../../db/queries').GET_USER_CONSENTS_USING_EMAIL;
 
 function getUser(req, res) {
   const params = [req.params.email];
