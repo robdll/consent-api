@@ -25,6 +25,13 @@ It's a small backend API project using NodeJs/express on the backend and MySQL a
 
 ## Test
 
+1. move to the server folder
+> cd server
+
+2. run Jest script
+> npm run test
+
+
 ## Documentation
 
 Documentation is public and can be found [here](https://documenter.getpostman.com/view/1268581/Uz5GpcHW)
