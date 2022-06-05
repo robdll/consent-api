@@ -28,6 +28,19 @@ CREATE TABLE `users_consents` (
   `enabled` boolean NOT NULL
 );
 
+CREATE TABLE `users_consents_events` (
+  `id` varchar(36) NOT NULL,
+  `previous` varchar(36),
+  `current` varchar(36) NOT NULL,
+  `users_consents_id` boolean NOT NULL,
+  `created` TIMESTAMP
+);
+
+CREATE TRIGGER `before_users_consents_events_insert` 
+BEFORE INSERT ON `users_consents_events` 
+FOR EACH ROW 
+SET NEW.created = NOW();
+
 --
 -- Dumping data for table `users`
 --
@@ -64,7 +77,7 @@ ALTER TABLE `users_consents` ADD FOREIGN KEY (`consent_id`) REFERENCES consents(
 --
 -- Dumping data for table `users_consents`
 --
-INSERT INTO `users_consents` (`id`, `user_id`, `consent_id`) VALUES
+INSERT INTO `users_consents` (`id`, `user_id`, `consent_id`, `enabled`) VALUES
 ( "22222221-caa1-45ff-b6e1-56e5cb4586c5", "00000001-caa1-45ff-b6e1-56e5cb4586c5", "11111111-caa1-45ff-b6e1-56e5cb4586c5", 1),
 ( "22222221-caa1-45ff-b6e1-56e5cb4586c5", "00000001-caa1-45ff-b6e1-56e5cb4586c5", "11111112-caa1-45ff-b6e1-56e5cb4586c5", 1),
 ( "22222221-caa1-45ff-b6e1-56e5cb4586c5", "00000002-caa1-45ff-b6e1-56e5cb4586c5", "11111111-caa1-45ff-b6e1-56e5cb4586c5", 1),
