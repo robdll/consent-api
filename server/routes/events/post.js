@@ -48,7 +48,6 @@ async function postEvent(req, res) {
             const eventParams = [uuidv4(), ...params]
             return mysqlPool.queryAsync(updateUserConsentQuery, params)
                 .then( (r) => {
-                    console.log("updated", r)
                     return mysqlPool.queryAsync(createEventQuery, eventParams)
                 })
         } else {

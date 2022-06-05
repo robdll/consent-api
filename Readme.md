@@ -29,7 +29,7 @@ It's a small backend API project using NodeJs/express on the backend and MySQL a
 
 ## Documentation
 
-
+Documentation is public and is can be read [here](https://documenter.getpostman.com/view/1268581/Uz5GpcHW)
 
 ### Question
 1. Do you have a regex already in place in your system for email validity? if not, can the following be accepted?
