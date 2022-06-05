@@ -6,7 +6,8 @@ const GET_USER_CONSENTS = `
   ON t1.id = t2.consent_id
   WHERE user_id = (SELECT id FROM users WHERE email = ?)`;
 
-// const POST_USER = `SELECT * FROM users`;
+const POST_USER = `INSERT INTO users (id, email) VALUES (?, ?)`;
+
 // const DELETE_USER = `SELECT * FROM users`;
 
 // const POST_EVENT = `SELECT * FROM users`;
@@ -15,5 +16,6 @@ const GET_USER_CONSENTS = `
 
 module.exports = {
   GET_USER,
-  GET_USER_CONSENTS
+  GET_USER_CONSENTS,
+  POST_USER
 }
