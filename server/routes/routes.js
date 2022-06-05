@@ -1,12 +1,15 @@
 const express = require('express');
 const router = express.Router();
 
+// MIDDLEWARE
 const bodyParser = require('body-parser');
+// PROPRIETARY MIDDLEWARE 
+const apiCallTracker = require('../middleware/apiCallTracker');
 
+// API ROUTES
 const getUser = require('./users/get');
 const deleteUser = require('./users/delete');
 const postUser = require('./users/post');
-
 const postEvent = require('./events/post');
 
 module.exports = function(app) {
@@ -21,6 +24,6 @@ module.exports = function(app) {
     
     router.route('/events').post(postEvent);
     
-    app.use('/', router);
+    app.use('/', apiCallTracker, router);
 
 } 
